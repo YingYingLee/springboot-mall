@@ -13,7 +13,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
-import com.springbootmall.constant.ProductCategory;
+import com.springbootmall.dto.ProductQueryParams;
 import com.springbootmall.dto.ProductRequest;
 import com.springbootmall.model.Product;
 import com.springbootmall.rowmapper.ProductRowMapper;
@@ -25,21 +25,21 @@ public class ProductDaoImpl implements ProductDao {
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 	
 	@Override
-	public List<Product> getProducts(ProductCategory category, String search) {
+	public List<Product> getProducts(ProductQueryParams productQueryParams) {
 		String sql = "SELECT productId, productName, category, imageUrl, price, "
 				+ "stock, description, createdDate, lastModifiedDate "
 				+ "FROM Product WHERE 1=1";
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		if (category != null) {
+		if (productQueryParams.getCategory() != null) {
 			sql += " AND category = :category";
-			map.put("category", category.name());
+			map.put("category", productQueryParams.getCategory().name());
 		}
 		
-		if (search != null) {
+		if (productQueryParams.getSearch() != null) {
 			sql += " AND productName LIKE :search";
-			map.put("search", "%" + search + "%");
+			map.put("search", "%" + productQueryParams.getSearch() + "%");
 		}
 		
 		List<Product> productList = namedParameterJdbcTemplate.query(sql, map, new ProductRowMapper());
