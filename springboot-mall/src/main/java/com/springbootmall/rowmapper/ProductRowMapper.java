@@ -9,6 +9,7 @@ import java.util.Date;
 
 import org.springframework.jdbc.core.RowMapper;
 
+import com.springbootmall.constant.ProductCategory;
 import com.springbootmall.model.Product;
 
 
@@ -20,7 +21,7 @@ public class ProductRowMapper implements RowMapper<Product> {
 		
 		product.setProductId(rs.getInt("productId"));
 		product.setProductName(rs.getString("productName"));
-		product.setCategory(rs.getString("category"));
+		product.setCategory(ProductCategory.valueOf(rs.getString("category")));
 		product.setImageUrl(rs.getString("imageUrl"));
 		product.setPrice(rs.getInt("price"));
 		product.setStock(rs.getInt("stock"));
