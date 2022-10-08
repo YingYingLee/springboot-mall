@@ -3,10 +3,13 @@ package com.springbootmall.controller;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +25,7 @@ import com.springbootmall.dto.ProductRequest;
 import com.springbootmall.model.Product;
 import com.springbootmall.service.ProductService;
 
+@Validated
 @RestController
 public class ProductController {
 
@@ -35,13 +39,18 @@ public class ProductController {
 			@RequestParam(required = false) String search, 
 			// 排序 Sorting
 			@RequestParam(defaultValue = "createdDate") String orderBy, 
-			@RequestParam(defaultValue = "desc") String sort) {
+			@RequestParam(defaultValue = "desc") String sort, 
+			// 分頁 Pagination
+			@RequestParam(defaultValue = "5") @Max(1000) @Min(0) Integer limit, 
+			@RequestParam(defaultValue = "0") @Min(0) Integer offset) {
 		
 		ProductQueryParams productQueryParams = new ProductQueryParams();
 		productQueryParams.setCategory(category);
 		productQueryParams.setSearch(search);
 		productQueryParams.setOrderBy(orderBy);
 		productQueryParams.setSort(sort);
+		productQueryParams.setLimit(limit);
+		productQueryParams.setOffset(offset);
 		
 		List<Product> productList = productService.getProducts(productQueryParams);
 		
