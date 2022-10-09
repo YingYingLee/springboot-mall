@@ -10,3 +10,12 @@ CREATE TABLE IF NOT EXISTS Product
 	createdDate       VARCHAR(32)     NOT NULL,
 	lastModifiedDate  VARCHAR(32)     NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS User
+(
+	userId            INT             NOT NULL  PRIMARY KEY AUTO_INCREMENT,
+	email             VARCHAR(256)    NOT NULL  UNIQUE,
+	password          VARCHAR(256)    NOT NULL,
+	createdDate       VARCHAR(32)     NOT NULL,
+	lastModifiedDate  VARCHAR(32)     NOT NULL
+);
