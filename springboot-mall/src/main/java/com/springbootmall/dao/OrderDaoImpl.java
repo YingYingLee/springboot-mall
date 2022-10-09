@@ -13,6 +13,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
+import com.springbootmall.dto.OrderQueryParams;
 import com.springbootmall.model.Order;
 import com.springbootmall.model.OrderItem;
 import com.springbootmall.rowmapper.OrderItemRowMapper;
@@ -23,6 +24,43 @@ public class OrderDaoImpl implements OrderDao {
 
 	@Autowired
 	private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+	@Override
+	public Integer countOrder(OrderQueryParams orderQueryParams) {
+		String sql = "SELECT count(*) FROM `Order` WHERE 1=1";
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		// 查詢條件
+		sql = addFilteringSql(sql, map, orderQueryParams);
+		
+		Integer total = namedParameterJdbcTemplate.queryForObject(sql, map, Integer.class);
+		
+		return total;
+	}
+
+	@Override
+	public List<Order> getOrders(OrderQueryParams orderQueryParams) {
+		String sql = "SELECT orderId, userId, totalAmount, createdDate, lastModifiedDate "
+				+ "FROM `Order` WHERE 1=1";
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		// 查詢條件
+		sql = addFilteringSql(sql, map, orderQueryParams);
+		
+		// 排序
+		sql += " ORDER BY createdDate DESC";
+		
+		// 分頁
+		sql += " LIMIT :limit OFFSET :offset";
+		map.put("limit", orderQueryParams.getLimit());
+		map.put("offset", orderQueryParams.getOffset());
+		
+		List<Order> orderList = namedParameterJdbcTemplate.query(sql, map, new OrderRowMapper());
+		
+		return orderList;
+	}
 
 	@Override
 	public Order getOrderById(Integer orderId) {
@@ -112,5 +150,14 @@ public class OrderDaoImpl implements OrderDao {
 		}
 		
 		namedParameterJdbcTemplate.batchUpdate(sql, parameterSources);
+	}
+	
+	private String addFilteringSql(String sql, Map<String, Object> map, OrderQueryParams orderQueryParams) {
+		if (orderQueryParams.getUserId() != null) {
+			sql += " AND userId = :userId";
+			map.put("userId", orderQueryParams.getUserId());
+		}
+		
+		return sql;
 	}
 }
