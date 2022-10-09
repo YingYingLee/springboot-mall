@@ -132,6 +132,22 @@ public class ProductDaoImpl implements ProductDao {
 	}
 	
 	@Override
+	public void updatStock(Integer productId, Integer stock) {
+		String sql = "UPDATE Product SET stock = :stock, lastModifiedDate = :lastModifiedDate "
+				+ "WHERE productId = :productId";
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("productId", productId);
+		map.put("stock", stock);
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime now = LocalDateTime.now();
+		map.put("lastModifiedDate", formatter.format(now));
+		
+		namedParameterJdbcTemplate.update(sql, map);
+	}
+
+	@Override
 	public void deleteProductById(Integer productId) {
 		String sql = "DELETE FROM Product WHERE productId = :productId";
 		
