@@ -5,3 +5,14 @@ INSERT INTO Product (productName, category, imageUrl, price, stock, description,
 INSERT INTO Product (productName, category, imageUrl, price, stock, description, createdDate, lastModifiedDate) VALUES ('BMW', 'CAR', 'https://cdn.pixabay.com/photo/2018/02/21/03/15/bmw-m4-3169357_1280.jpg', 500000, 3, '渦輪增壓，直列4缸，DOHC雙凸輪軸，16氣門', '2022-03-20 12:30:00', '2022-03-20 12:30:00');
 INSERT INTO Product (productName, category, imageUrl, price, stock, description, createdDate, lastModifiedDate) VALUES ('Benz', 'CAR', 'https://cdn.pixabay.com/photo/2017/03/27/14/56/auto-2179220_1280.jpg', 600000, 2, null, '2022-03-21 20:10:00', '2022-03-22 10:50:00');
 INSERT INTO Product (productName, category, imageUrl, price, stock, description, createdDate, lastModifiedDate) VALUES ('Tesla', 'CAR', 'https://cdn.pixabay.com/photo/2021/01/15/16/49/tesla-5919764_1280.jpg', 450000, 5, '世界最暢銷的充電式汽車', '2022-03-21 23:30:00', '2022-03-21 23:30:00');
+
+INSERT INTO User (email, password, createdDate, lastModifiedDate) VALUES ('user1@gmail.com', '202cb962ac59075b964b07152d234b70', '2022-06-30 10:30:00', '2022-06-30 10:30:00');
+INSERT INTO User (email, password, createdDate, lastModifiedDate) VALUES ('user2@gmail.com', '202cb962ac59075b964b07152d234b70', '2022-06-30 10:40:00', '2022-06-30 10:40:00');
+
+INSERT INTO `Order` (userId, totalAmount, createdDate, lastModifiedDate) VALUES (1, 500690, '2022-06-30 11:10:00', '2022-06-30 11:10:00');
+INSERT INTO OrderItem (orderId, productId, quantity, amount) VALUES (1, 1, 3, 90);
+INSERT INTO OrderItem (orderId, productId, quantity, amount) VALUES (1, 2, 2, 600);
+INSERT INTO OrderItem (orderId, productId, quantity, amount) VALUES (1, 5, 1, 500000);
+
+INSERT INTO `Order` (userId, totalAmount, createdDate, lastModifiedDate) VALUES (1, 100000, '2022-06-30 12:03:00', '2022-06-30 12:03:00');
+INSERT INTO OrderItem (orderId, productId, quantity, amount) VALUES (2, 4, 1, 100000);

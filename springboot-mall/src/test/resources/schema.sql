@@ -19,3 +19,21 @@ CREATE TABLE IF NOT EXISTS User
 	createdDate       VARCHAR(32)     NOT NULL,
 	lastModifiedDate  VARCHAR(32)     NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS `Order`
+(
+	orderId           INT             NOT NULL  PRIMARY KEY AUTO_INCREMENT,
+	userId            INT NOT NULL,
+	totalAmount       INT NOT NULL,
+	createdDate       VARCHAR(32)     NOT NULL,
+	lastModifiedDate  VARCHAR(32)     NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS OrderItem
+(
+	orderItemId       INT             NOT NULL  PRIMARY KEY AUTO_INCREMENT,
+	orderId           INT NOT NULL,
+	productId         INT NOT NULL,
+	quantity          INT NOT NULL,
+	amount            INT NOT NULL
+);
